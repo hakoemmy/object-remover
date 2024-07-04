@@ -1,26 +1,27 @@
 ## Description
 
-Challenge APIs
+object-remover
 ## Requirements
 - [NPM version 8.5.0](https://www.npmjs.com/package/npm)
 - [Nodejs v16.14.2](https://nodejs.org/en)
 - [Redis](https://redis.io/docs/getting-started/installation/)
+- [MongoDB](https://mongodb.com/)
 
 ## Running the app without docker
 
 ```bash
-challenge$ npm install
+object-remover$ npm install
 ```
 
 ```bash
 # development
-challenge$ npm run start
+object-remover$ npm run start
 
 # watch mode
-challenge$ npm run start:dev
+object-remover$ npm run start:dev
 
 # production mode
-$ npm run start:prod
+object-remover$ npm run start:prod
 ```
 ## Running the app with docker
 
@@ -31,21 +32,21 @@ $ npm run start:prod
 
 ``` bash
    # Spin up the docker container for both mongo DB and server
-   challenge$ docker-compose up
+   object-remover$ docker-compose up
 ```
 ## Test
 
 ```bash
 # unit tests
-challenge$ npm run test
+object-remover$ npm run test
 
 # e2e tests
-challenge$ npm run test:e2e
+object-remover$ npm run test:e2e
 
 # test coverage
-challenge$ npm run test:cov
+object-remover$ npm run test:cov
 ```
-## Documentation
+## Documentation(Powered by Swagger)
 Visit below url in the browser
 ```
  http://localhost:3000/docs

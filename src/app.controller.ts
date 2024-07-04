@@ -8,7 +8,7 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
-import { ApiResponse } from "@nestjs/swagger";
+import { ApiBody, ApiConsumes, ApiResponse } from "@nestjs/swagger";
 import { UploadImageResDto } from "./dtos/image-upload.res.dto";
 import { RemoveObjectFromImagePublisher } from "./pubsub/remove-object-from-image.publisher";
 import { ObjectImageService } from "./services/object-image.service";
@@ -21,9 +21,27 @@ export class AppController {
     private readonly objectImageService: ObjectImageService,
     private removeObjectFromImagePublisher: RemoveObjectFromImagePublisher
   ) {}
+
   @ApiResponse({
     type: UploadImageResDto,
     status: HttpStatus.OK,
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Object removal from image request',
+    schema: {
+      type: 'object',
+      properties: {
+        sourceImage: {
+          type: 'string',
+          format: 'binary',
+        },
+        objectToRemove: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
   })
   @Post("remove-object-in-image")
   @UseInterceptors(
