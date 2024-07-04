@@ -18,4 +18,13 @@ export class SourceImageService {
       throw new InternalServerErrorException();
     }
   }
+
+  async findMany() {
+    try {
+      return await this.sourceImageModel.find().populate("objectToRemove");;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
+  }
 }

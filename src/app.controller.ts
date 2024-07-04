@@ -10,6 +10,7 @@ import {
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiConsumes, ApiResponse } from "@nestjs/swagger";
 import { UploadImageResDto } from "./dtos/image-upload.res.dto";
+import { GetSourceImageResDto } from "./dtos/source-image.res.dto";
 import { RemoveObjectFromImagePublisher } from "./pubsub/remove-object-from-image.publisher";
 import { ObjectImageService } from "./services/object-image.service";
 import { SourceImageService } from "./services/source-image.service";
@@ -26,19 +27,19 @@ export class AppController {
     type: UploadImageResDto,
     status: HttpStatus.OK,
   })
-  @ApiConsumes('multipart/form-data')
+  @ApiConsumes("multipart/form-data")
   @ApiBody({
-    description: 'Object removal from image request',
+    description: "Object removal from image request",
     schema: {
-      type: 'object',
+      type: "object",
       properties: {
         sourceImage: {
-          type: 'string',
-          format: 'binary',
+          type: "string",
+          format: "binary",
         },
         objectToRemove: {
-          type: 'string',
-          format: 'binary',
+          type: "string",
+          format: "binary",
         },
       },
     },
@@ -99,5 +100,27 @@ export class AppController {
     });
 
     return uploadResult;
+  }
+
+  @Get("/source-images")
+  @ApiResponse({
+    type: GetSourceImageResDto,
+    status: HttpStatus.OK,
+  })
+  async getSourceImages() {
+    const sourceImages = await this.sourceImageService.findMany();
+
+    return sourceImages.map(
+      (s) =>
+        new GetSourceImageResDto({
+          id: s.id,
+          url: s.url,
+          imageUrlWithObjectRemoved: s.imageUrlWithObjectRemoved,
+          objectToRemove: {
+            id: s.objectToRemove.id,
+            url: s.objectToRemove.url,
+          },
+        })
+    );
   }
 }
